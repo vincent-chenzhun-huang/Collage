@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+</head>
+<body>
+    <div id="header">
+        <ul class="menu">
+            <li class="logo"><a href="#">Bookmark</a></li>
+            {% if request.user.is_authenticated %}
+
+            <li {% if section == 'dashboard' %} class="selected"{% endif %}>
+                <a href="{% url "dashboard" %}">My dashboard</a>
+            </li>
+            <li {% if section == "images" %}class="selected"{% endif %}>
+                <a href="#">Images</a>
+            </li>
+            <li {% if section == "people" %}class="selected"{% endif %}>
+                <a href="#">People</a>
+            </li>
+
+
+        {% endif %}
+            <div class="align-right">
+                <li class="user">
+                    {% if request.user.is_authenticated %}
+                        Hello, {{ request.user.first_name }} <a href="{% url "logout" %}" style="display: inline">Logout</a>
+                    {% else %}
+                        <a href="{% url "login" %}" id="login">Login</a>
+                    {% endif %}
+                </li>
+            </div>
+
+        </ul>
+    </div>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">
+                    {{ message | safe }}
+                    <a href="#" class="close">x</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
