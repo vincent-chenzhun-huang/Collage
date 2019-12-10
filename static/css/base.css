@@ -42,7 +42,17 @@ form, .container {
     padding: 40px 40px;
     background: #e4e4e4;
     border-radius: 8px;
+    display: inline;
+    float: left;
 }
 
+.container {
+    text-align:center;
+    display: inline-block;
+}
+
+#createimage {
+    text-align: center;
+}
 
 
