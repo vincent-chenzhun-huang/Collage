@@ -16,6 +16,10 @@ class Image(models.Model):
     description = models.TextField(blank=True)
     created = models.DateField(auto_now_add=True,
                                db_index=True)
+    users_like = models.ManyToManyField(User,
+                                                related_name='images_liked',
+                                                blank=True)
+
 
     def save(self, *args, **kwargs):
         if not self.slug:
