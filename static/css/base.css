@@ -36,23 +36,20 @@ li a:hover, li.user a:hover:hover a#login:hover{
     background-color: #111;
 }
 
-form, .container {
+.container {
     max-width: 700px;
     margin: 20px auto;
     padding: 40px 40px;
     background: #e4e4e4;
     border-radius: 8px;
-    display: inline;
     float: left;
 }
 
 .container {
-    text-align:center;
     display: inline-block;
 }
 
 #createimage {
-    text-align: center;
 }
 
 
