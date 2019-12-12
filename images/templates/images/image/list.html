@@ -1,0 +1,39 @@
+{% extends "account/base.html" %}
+
+{% block title %}Images bookmarked{% endblock %}
+
+{% block content %}
+  <h1>Images bookmarked</h1>
+  <div id="image-list">
+    {% include "images/image/list_ajax.html" %}
+  </div>
+{% endblock %}
+
+{# page: Stores the current page number.#}
+{# empty_page: Allows us to know whether the user is on the last page and retrieves an empty page. As soon as we get an empty page, we will stop sending additional AJAX requests because we will assume that there are no more results.#}
+{# block_request: Prevents us from sending additional requests while an AJAX request is in progress.#}
+{% block domready %}
+
+  var page = 1;
+  var empty_page = false;
+  var block_request = false;
+{#capture the scroll event#}
+  $(window).scroll(function() {
+{#    We subtract a value of 200 from the result so that we load the next page when the user is closer than 200 pixels to the bottom of the page.#}
+    var margin = $(document).height() - $(window).height() - 200;
+    if  ($(window).scrollTop() > margin && empty_page == false &&
+    block_request == false) {
+     block_request = true;
+      page += 1;
+      $.get('?page=' + page, function(data) {
+       if(data == '') {
+          empty_page = true;
+        }
+        else {
+          block_request = false;
+          $('#image-list').append(data);
+        }
+      });
+    }
+  });
+{% endblock %}

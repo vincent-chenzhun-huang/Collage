@@ -5,7 +5,10 @@ from .forms import ImageCreateForm
 from django.shortcuts import get_object_or_404
 from .models import Image
 from django.http import JsonResponse
-from  django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST
+from common.decorators import ajax_required
+from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 @login_required
@@ -40,6 +43,8 @@ def image_detail(request, id, slug):
                   {'section': 'images',
                    'image': image})
 
+
+@ajax_required
 @login_required
 @require_POST
 def image_like(request):
@@ -54,3 +59,30 @@ def image_like(request):
         except:
             pass
         return JsonResponse({'status': 'ko'})
+
+
+@login_required
+def image_list(request):
+    images = Image.objects.all()
+    # returns 8 images per page
+    paginator = Paginator(images, 8)
+    page = request.GET.get('page')
+    try:
+        images = paginator.page(page)
+    except PageNotAnInteger:
+        # if page is not an integer deliver the first page
+        images = paginator.page(1)
+    except EmptyPage:
+        if request.is_ajax():
+            return HttpResponse('')
+        images = paginator.page(paginator.num_pages)
+    # For AJAX requests, render the list_ajax.html template. This template will only contain the images of the
+    # requested page.
+    if request.is_ajax():
+        return render(request,
+                      'images/image/list_ajax.html',
+                      {'section': 'images', 'images': images})
+    # For standard requests, render the list.html template
+    return render(request,
+                  'images/image/list.html',
+                  {'section': 'images', 'images': images})
