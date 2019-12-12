@@ -34,6 +34,18 @@
     image_url +'" /></a>');
             }
         });
+
+        jQuery('#bookmarklet .images a').click(function (e) {
+            selected_image = jQuery(this).children('img').attr('src');
+            //hide bookmarklet
+            jQuery('#bookmarklet').hide();
+            //open new windows to submit the image
+            window.open(site_url + 'images/create/?url='
+                        + encodeURIComponent(selected_image)
+                        + '&title='
+                        + encodeURIComponent(jQuery('title').text())
+                        + '_blank');
+        });
     };
 
     if(typeof window.jQuery != 'undefined') {

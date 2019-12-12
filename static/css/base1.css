@@ -54,14 +54,13 @@ ol {
 
 #header ul.menu {
     list-style:none;
-    /* float:left; */
+    float:left;
     margin:0;
     padding:0;
 }
 #header ul.menu li {
     float:left;
-    padding: 4px 10px;
-    padding-bottom: 3px;
+    padding:4px 10px;
 }
 
 #header ul.menu li.selected a, #header ul.menu li.selected a:hover {
@@ -77,7 +76,7 @@ ol {
 }
 
 #header .user {
-    float: right!important;
+    float:right;
     padding-top:4px;
 }
 

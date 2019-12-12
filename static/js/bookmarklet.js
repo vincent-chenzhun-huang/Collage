@@ -11,7 +11,7 @@
         css.attr({
             rel: 'stylesheet',
             type: 'text/css',
-            href: static_url + 'css/bookmarklet.css?r='
+            href: static_url + 'css/bookmarklet.css?r=' + Math.floor(Math.random()*99999999999999999999)
         });
         jQuery('head').append(css);
 
