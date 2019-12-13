@@ -1,4 +1,4 @@
-#Collage: An Image Bookmarking website
+# Collage: An Image Bookmarking website
 
 Using Collage, you are able to save the image you love to your database while browsing upon one click.
 
