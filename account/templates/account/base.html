@@ -9,7 +9,7 @@
 <body>
     <div id="header">
         <ul class="menu">
-            <li class="logo"><a href="#">Bookmark</a></li>
+            <li class="logo"><a href= "#">Collage</a></li>
             {% if request.user.is_authenticated %}
 
             <li {% if section == 'dashboard' %} class="selected"{% endif %}>
@@ -19,7 +19,7 @@
                 <a href="{% url "images:list" %}">Images</a>
             </li>
             <li {% if section == "people" %}class="selected"{% endif %}>
-                <a href="#">People</a>
+                <a href="{% url "user_list" %}">People</a>
             </li>
 
 
@@ -30,6 +30,11 @@
                         Hello, {{ request.user.first_name }} <a href="{% url "logout" %}" style="display: inline">Logout</a>
                     {% else %}
                         <a href="{% url "login" %}" id="login">Login</a>
+                    {% endif %}
+                </li>
+                <li class="user">
+                    {% if not request.user.is_authenticated %}
+                        <a href="{% url "signup" %}" id="signup">Signup</a>
                     {% endif %}
                 </li>
             </div>

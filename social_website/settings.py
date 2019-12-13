@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from django.urls import reverse_lazy
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -148,6 +149,6 @@ AUTHENTICATION_BACKENDS = [
     'account.authentication.EmailAuthBackend',
 ]
 
-SOCIAL_AUTH_FACEBOOK_KEY = '2825734827436503'
-SOCIAL_AUTH_FACEBOOK_SECRET = '057d807858070ebf78aa5c4ed59b41eb'
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+ABSOLUTE_URL_OVERRIDES ={
+    'auth.user': lambda u: reverse_lazy('user_detail', args=[u.username])
+}
