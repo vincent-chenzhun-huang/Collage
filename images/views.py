@@ -14,7 +14,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 @login_required
 def image_create(request):
     """
-    save the form to a new_item, and asign
+    save the form to a new_item, and assign the owner to the current user
     """
     if request.method == 'POST':
         form = ImageCreateForm(data=request.POST)
