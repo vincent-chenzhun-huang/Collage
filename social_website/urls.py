@@ -18,12 +18,19 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Include all the url patterns in different parts of the website
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('images/', include('images.urls', namespace='images')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
+"""
+Django will serve these static files only debug mode. Update after 1.6
+
+What is serving a static file: from stackoverflow
+It means that the file content will be sent to the client (usually a browser) as 
+is without server intervention. By contrast, a dynamic file is parsed by the server which then renders a new set of 
+data based on the dynamic file template. A dynamic file will typically use some form of server-side code to let the 
+server know what type of modifications need to be made. 
+"""

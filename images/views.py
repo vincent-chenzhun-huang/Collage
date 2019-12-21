@@ -13,6 +13,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 @login_required
 def image_create(request):
+    """
+    save the form to a new_item, and asign
+    """
     if request.method == 'POST':
         form = ImageCreateForm(data=request.POST)
         if form.is_valid():

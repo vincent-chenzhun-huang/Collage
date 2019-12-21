@@ -14,28 +14,29 @@ from .models import Contact
 
 
 def user_login(request):
-    if request.method == 'POST':
+    if request.method == 'POST':  # If the user is trying to log in
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
             user = authenticate(request,
                                 username=cd['username'],
-                                password=cd['password'])
-            if user is not None:
-                if user.is_active:
+                                password=cd['password'])  # Use Django's built-in authentication system
+            if user is not None:  # if the user exists
+                if user.is_active:  # if the user is active, log in the user and send the message
                     login(request, user)
-                    return HttpResponse('Authenticated ' \
+                    return HttpResponse('Authenticated '
                                         'successfully')
                 else:
-                    return HttpResponse('Disabled account')
+                    return HttpResponse('Disabled account')  # if the user is inactive, return the message
             else:
-                return HttpResponse('Invalid login')
+                return HttpResponse('Invalid login')  # Show the invalid credential
     else:
-        form = LoginForm()
-    return render(request, 'registration/login.html', {'form': form})
+        form = LoginForm()  # load the login form if the method is GET
+    return render(request, 'registration/login.html', {'form': form})  # render the corresponding page with the form
+    # attached
 
 
-@login_required
+@login_required  # make the dashboard login required so that only logged in users can access the content
 def dashboard(request):
     return render(request,
                   'account/dashboard.html',
@@ -43,18 +44,22 @@ def dashboard(request):
 
 
 def register(request):
+    """
+    User signup view,
+    use Django's built-in registration form
+    """
     if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
+        user_form = UserRegistrationForm(request.POST)  # create a user registration form and validate
         if user_form.is_valid():
-            new_user = user_form.save(commit=False)
+            new_user = user_form.save(commit=False)  # if valid, save the form but not to the database
             new_user.set_password(
                 user_form.cleaned_data['password']
-            )
-            new_user.save()
-            Profile.objects.create(user=new_user)
+            )  # set the password for the user
+            new_user.save()  # commit the save to the database
+            Profile.objects.create(user=new_user)  # Create a new user profile in Profile model
             return render(request,
                           'account/register_done.html',
-                          {'new_user': new_user})
+                          {'new_user': new_user})  # render the page with the new_user object passed
     else:
         user_form = UserRegistrationForm()
     return render(request,
@@ -64,6 +69,7 @@ def register(request):
 
 @login_required
 def edit(request):
+    """This form lets users modify their credentials after created"""
     if request.method == 'POST':
         user_form = UserEditForm(instance=request.user, data=request.POST)
         profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES)
@@ -85,7 +91,8 @@ def edit(request):
 
 @login_required
 def user_list(request):
-    users = User.objects.filter(is_active=True)
+    """Get the list of users visible."""
+    users = User.objects.filter(is_active=True)  # Only display the list of active users
     return render(request,
                   'account/user/list.html',
                   {'section': 'people',
@@ -107,6 +114,7 @@ def user_detail(request, username):
 @require_POST
 @login_required
 def user_follow(request):
+    """Get the information passed in the request and create the Contact object to keep track of the follower count"""
     user_id = request.POST.get('id')
     action = request.POST.get('action')
     if user_id and action:

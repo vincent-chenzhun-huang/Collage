@@ -1,9 +1,12 @@
 from django.db import models
-from django.conf import settings
 from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
+    """
+    Extend the Django built-in by creating a one-to-one field (foreign key) between User model and Profile model,
+    on_delete: CASCADE: When the referenced object is deleted, also delete the objects that have references to it
+    """
     user = models.OneToOneField(User,
                                 on_delete=models.CASCADE)
     date_of_birth = models.DateField(blank=True, null=True)
@@ -32,6 +35,7 @@ class Contact(models.Model):
                                       self.user_to)
 
 
+# Add a field to User model, specifying the number of followers the users have
 User.add_to_class('following',
                   models.ManyToManyField('self',
                                          through=Contact,

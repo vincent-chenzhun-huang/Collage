@@ -7,9 +7,11 @@
     <link rel="stylesheet" href="{% static "css/base.css" %}">
 </head>
 <body>
+<!--Use a conditional class in html and mark the class as selected when the user is in the corresponding session-->
     <div id="header">
         <ul class="menu">
             <li class="logo"><a href= "#">Collage</a></li>
+            <!--Only show the content of the navbar if the user is authenticated-->
             {% if request.user.is_authenticated %}
 
             <li {% if section == 'dashboard' %} class="selected"{% endif %}>
@@ -23,7 +25,8 @@
             </li>
 
 
-        {% endif %}
+            {% endif %}
+            <!--The login logout button-->
             <div class="align-right">
                 <li class="user">
                     {% if request.user.is_authenticated %}
@@ -56,6 +59,7 @@
         {% endblock %}
     </div>
 
+<!--Load the script for jQuery and ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script>
@@ -64,6 +68,13 @@
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
       }
+      //We set up jQuery AJAX requests using $.ajaxSetup().
+      // Before each AJAX request is performed, we check
+      // whether the request method is safe and the current
+      // request is not cross-domain. If the request is unsafe,
+      // we set the X-CSRFToken header with the value obtained
+      // from the cookie. This setup will apply to all AJAX
+      // requests performed with jQuery.
       $.ajaxSetup({
         beforeSend: function(xhr, settings) {
           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {

@@ -23,6 +23,7 @@ class ImageCreateForm(forms.ModelForm):
         return url
 
     def save(self, force_insert=False, form_update=False, commit=True):
+        """Override Django's save form function and add image_url and image_name"""
         image = super(ImageCreateForm, self).save(commit=False)
         image_url = self.cleaned_data['url']
         image_name = '{}.{}'.format(slugify(image.title),
