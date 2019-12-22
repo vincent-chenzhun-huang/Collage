@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'images.apps.ImagesConfig',
     'sorl.thumbnail',
+    'django.contrib.postgres'
 ]
 
 MIDDLEWARE = [

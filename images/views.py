@@ -50,6 +50,7 @@ def image_detail(request, id, slug):
 @ajax_required
 @login_required
 @require_POST
+# request that only accepts POST
 def image_like(request):
     image_id = request.POST.get('id')
     action = request.POST.get('action')
@@ -89,3 +90,5 @@ def image_list(request):
     return render(request,
                   'images/image/list.html',
                   {'section': 'images', 'images': images})
+
+
